@@ -1,4 +1,64 @@
 <?php
+session_start();
+
+if (!empty($_SESSION['ID'])) {
+    header("Location: /principal.php");
+} else {
+    if (!empty($_POST['ingreso-nombre'])) {
+        $nombre = $_POST['ingreso-nombre'];
+        $apellido = $_POST['ingreso-apellido'];
+        $email = $_POST['ingreso-email'];
+        $contraseña = $_POST['ingreso-clave'];
+        $contraseña_repetida = $_POST['ingreso-repetir-clave'];
+        $validador = 0;
+        $error = 0;
+        if (empty($nombre)) {
+            $validador++;
+        }
+        if (empty($apellido)) {
+            $validador++;
+        }
+        if (empty($email)) {
+            $validador++;
+        }
+        if (empty($contraseña)) {
+            $validador++;
+        }
+        if (empty($contraseña_repetida)) {
+            $validador++;
+        }
+        if ($validador == 0) {
+            if ($contraseña_repetida == $contraseña_repetida) {
+                
+                $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
+
+                $nombre_val = mysqli_real_escape_string($link, $nombre);
+                $apellido_val = mysqli_real_escape_string($link, $apellido);
+                $email_val = mysqli_real_escape_string($link, $email);
+                $clave_val = mysqli_real_escape_string($link, $contraseña);
+
+                $sql_query = "INSERT INTO `usuarios` (`username`, `Nombre`, `Apellido`, `Clave`) 
+                   VALUES ('" . $email_val . "', '" . $nombre_val . "', '" . $apellido_val . "', '" . $clave_val . "')";
+    
+                
+                if(!mysqli_query($link, $sql_query)){
+                   $error = 300;
+                   echo $error;
+                }else{
+                    $error = 0;
+                    header("Location: /index.php");
+                }
+                  
+            } else {
+                $error = 200;   //codigo de error de contraseñas no coinciden
+                echo $error;
+            }
+        } else {
+            $error = 100;   // codigo de error de datos incompletos
+            echo $error;
+        }
+    }
+}
 
 ?>
 <html lang="en">
@@ -21,11 +81,11 @@
             float: left;
         }
 
-        .formulario-registro{
+        .formulario-registro {
             position: relative;
             padding: 20px;
             border: 1px solid grey;
-            border-radius:20px;
+            border-radius: 20px;
         }
     </style>
 </head>
@@ -46,12 +106,12 @@
             <div class="row">
                 <div class="col-3"></div>
                 <div class="col-6 formulario-registro">
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col">
                                     <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" name ="ingreso-nombre" placeholder="Nombre" aria-label="First name">
+                                    <input type="text" class="form-control" name="ingreso-nombre" placeholder="Nombre" aria-label="First name">
                                 </div>
                                 <div class="col">
                                     <label for="exampleInputPassword1" class="form-label">Apellido</label>
