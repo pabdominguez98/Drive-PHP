@@ -2,10 +2,14 @@
 
 session_start();
 
+if (!empty($_SESSION['ID'])) {
+    echo "Sesion ya iniciada!";
+}
+$estado_login = 0;
 if (!empty($_GET['username'])) {
     $username = $_GET['username'];
     $clave = $_GET['password'];
-    $estado_login = 0;
+    
 
     $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
 
@@ -17,6 +21,7 @@ if (!empty($_GET['username'])) {
         $result = mysqli_fetch_array($resultado);
         $id = $result['ID'];
         $nombre = $result['ID'];
+        $_SESSION['ID'] = $id;
     } else {
         $estado_login++;
     }
