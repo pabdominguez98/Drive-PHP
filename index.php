@@ -67,7 +67,7 @@ if (!empty($_GET['username'])) {
         <div class="row">
             <nav class="navbar nav_bar navbar-light bg-primary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Desarrollo de aplicaciones</a>
+                    <a class="navbar-brand" href="#">TP-Drive</a>
                 </div>
             </nav>
         </div>
@@ -89,6 +89,11 @@ if (!empty($_GET['username'])) {
                             </div>
                             <div class="mb-3">
                                 <input type="submit" class="btn-primary" name="submit" value="Ingresar">
+                            </div>
+                            <div class="mb-3">
+                                <span>¿No tenes cuenta?
+                                    <a href="/registro.php">Registrate</a>
+                                </span>
                             </div>
                             <?php
                             if ($estado_login != 0) {
