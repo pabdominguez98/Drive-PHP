@@ -5,7 +5,7 @@ session_start();
 if (!empty($_GET['username'])) {
     $username = $_GET['username'];
     $clave = $_GET['password'];
-
+    $estado_login = 0;
 
     $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
 
@@ -17,9 +17,8 @@ if (!empty($_GET['username'])) {
         $result = mysqli_fetch_array($resultado);
         $id = $result['ID'];
         $nombre = $result['ID'];
-        echo $nombre;
     } else {
-        echo "Error!";
+        $estado_login++;
     }
 }
 
@@ -85,7 +84,17 @@ if (!empty($_GET['username'])) {
                             <div class="mb-3">
                                 <input type="submit" class="btn-primary" name="submit" value="Ingresar">
                             </div>
-
+                            <?php
+                            if ($estado_login != 0) {
+                            ?>
+                                <div class="mb-3">
+                                    <div class="alert alert-danger" role="alert">
+                                        Datos incorrectos!
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
 
                         </div>
                     </form>
