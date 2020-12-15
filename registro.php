@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+$error = 0;
 if (!empty($_SESSION['ID'])) {
     header("Location: /principal.php");
 } else {
@@ -28,35 +28,47 @@ if (!empty($_SESSION['ID'])) {
             $validador++;
         }
         if ($validador == 0) {
-            if ($contraseña_repetida == $contraseña_repetida) {
-                
+            if (strcmp($contraseña, $contraseña_repetida) === 0) {
+
                 $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
+
+
 
                 $nombre_val = mysqli_real_escape_string($link, $nombre);
                 $apellido_val = mysqli_real_escape_string($link, $apellido);
                 $email_val = mysqli_real_escape_string($link, $email);
                 $clave_val = mysqli_real_escape_string($link, $contraseña);
 
-                $sql_query = "INSERT INTO `usuarios` (`username`, `Nombre`, `Apellido`, `Clave`) 
+                $sql_query_1 = "SELECT `ID` FROM `usuarios` WHERE Username='" . $email_val . "'";
+
+                $resultado = mysqli_query($link, $sql_query_1);
+
+                if (mysqli_num_rows($resultado) > 0) {
+                    $error = 400;   //codigo de error de usuario existente
+                } else {
+
+                    $sql_query = "INSERT INTO `usuarios` (`username`, `Nombre`, `Apellido`, `Clave`) 
                    VALUES ('" . $email_val . "', '" . $nombre_val . "', '" . $apellido_val . "', '" . $clave_val . "')";
-    
-                
-                if(!mysqli_query($link, $sql_query)){
-                   $error = 300;
-                   echo $error;
-                }else{
-                    $error = 0;
-                    header("Location: /index.php");
+
+
+                    if (!mysqli_query($link, $sql_query)) {
+                        $error = 300;   //error si falla la carga a base de datos
+
+                    } else {
+                        $error = 0;
+                        header("Location: /index.php");
+                    }
                 }
-                  
             } else {
                 $error = 200;   //codigo de error de contraseñas no coinciden
-                echo $error;
+
             }
         } else {
             $error = 100;   // codigo de error de datos incompletos
-            echo $error;
+
         }
+    } else {
+        $error = 50; // codigo de error de datos incompletos
     }
 }
 
@@ -135,9 +147,43 @@ if (!empty($_SESSION['ID'])) {
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        <div class="mb-3">
+                            <?php
+                            if ($error == 100) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Datos incompletos!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($error == 200) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Las contraseñas no coinciden!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($error == 300) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Error de conexion!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($error == 400) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    El usuario ya existe!
+                                </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                         <button type="submit" class="btn btn-primary">Registrarse</button>
                     </form>
