@@ -31,14 +31,26 @@ if (empty($_SESSION['ID'])) {
 
         .contenido {
             position: relative;
-            top: 60px;
+            top: 55px;
         }
 
         .columna-info {
             position: fixed;
-            width: 25%;
+            width: 18%;
             height: auto;
-            background-color: red;
+            color: white;
+            padding: 30px;
+            background-color: #0D6EFD;
+        }
+
+        .card-img-top {
+            width: 150px;
+            height: 150px;
+        }
+
+        .card {
+            position: relative;
+            margin: 30px;
         }
     </style>
 </head>
@@ -73,7 +85,7 @@ if (empty($_SESSION['ID'])) {
         </div>
     </section>
     <section class="contenido">
-        <div class="container">
+        <div>
             <div class="row">
                 <div class="col-4">
                     <div class="columna-info">
@@ -90,77 +102,78 @@ if (empty($_SESSION['ID'])) {
                 </div>
                 <div class="col-8">
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <form method="get">
+                                <button type="submit" name="archivo" value="nombre_pdf" class="btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
