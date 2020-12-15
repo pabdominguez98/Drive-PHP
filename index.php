@@ -3,13 +3,13 @@
 session_start();
 
 if (!empty($_SESSION['ID'])) {
-    echo "Sesion ya iniciada!";
+    header("Location: /principal.php");
 }
 $estado_login = 0;
 if (!empty($_GET['username'])) {
     $username = $_GET['username'];
     $clave = $_GET['password'];
-    
+
 
     $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
 
@@ -22,6 +22,7 @@ if (!empty($_GET['username'])) {
         $id = $result['ID'];
         $nombre = $result['ID'];
         $_SESSION['ID'] = $id;
+        header("Location: /principal.php");
     } else {
         $estado_login++;
     }
@@ -40,7 +41,7 @@ if (!empty($_GET['username'])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Ingreso</title>
 
 
     <style type="text/css">
