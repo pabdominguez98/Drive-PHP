@@ -30,6 +30,7 @@ if (!empty($_SESSION['ID'])) {
         if ($validador == 0) {
             if (strcmp($contraseña, $contraseña_repetida) === 0) {
 
+
                 $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
 
 
@@ -148,24 +149,31 @@ if (!empty($_SESSION['ID'])) {
                             </div>
                         </div>
                         <div class="mb-3">
+
                             <?php
                             if ($error == 100) {
                             ?>
+
                                 <div class="alert alert-danger" role="alert">
                                     Datos incompletos!
                                 </div>
+
                             <?php
                             }
                             ?>
+
                             <?php
                             if ($error == 200) {
                             ?>
+
                                 <div class="alert alert-danger" role="alert">
                                     Las contraseñas no coinciden!
                                 </div>
+
                             <?php
                             }
                             ?>
+                            
                             <?php
                             if ($error == 300) {
                             ?>

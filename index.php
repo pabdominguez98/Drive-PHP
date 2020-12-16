@@ -5,7 +5,9 @@ session_start();
 if (!empty($_SESSION['ID'])) {
     header("Location: /principal.php");
 }
+
 $estado_login = 0;
+
 if (!empty($_GET['username'])) {
     $username = $_GET['username'];
     $clave = $_GET['password'];
@@ -95,14 +97,17 @@ if (!empty($_GET['username'])) {
                                     <a href="/registro.php">Registrate</a>
                                 </span>
                             </div>
+
                             <?php
                             if ($estado_login != 0) {
                             ?>
+
                                 <div class="mb-3">
                                     <div class="alert alert-danger" role="alert">
                                         Datos incorrectos!
                                     </div>
                                 </div>
+                                
                             <?php
                             }
                             ?>
