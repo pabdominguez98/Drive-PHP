@@ -39,7 +39,7 @@ if (!empty($_SESSION['ID'])) {
                 $apellido_val = mysqli_real_escape_string($link, $apellido);
                 $email_val = mysqli_real_escape_string($link, $email);
                 $clave_val = mysqli_real_escape_string($link, $contraseña);
-
+                $imagen_random = "123456.jpg";
                 $sql_query_1 = "SELECT `ID` FROM `usuarios` WHERE Username='" . $email_val . "'";
 
                 $resultado = mysqli_query($link, $sql_query_1);
@@ -48,8 +48,8 @@ if (!empty($_SESSION['ID'])) {
                     $error = 400;   //codigo de error de usuario existente
                 } else {
 
-                    $sql_query = "INSERT INTO `usuarios` (`username`, `Nombre`, `Apellido`, `Clave`) 
-                   VALUES ('" . $email_val . "', '" . $nombre_val . "', '" . $apellido_val . "', '" . $clave_val . "')";
+                  $sql_query = "INSERT INTO `usuarios` (`username`, `Nombre`, `Apellido`, `Clave`, `Imagen`) 
+                   VALUES ('" . $email_val . "', '" . $nombre_val . "', '" . $apellido_val . "', '" . $clave_val . "', '".$imagen_random."')";
 
 
                     if (!mysqli_query($link, $sql_query)) {

@@ -13,6 +13,11 @@ if (empty($_SESSION['ID'])) {
     $clave = "";
     $email = "";
 
+    $error_foto = 50;
+
+    if (isset($_GET['error'])) {
+        $error_foto = $_GET['error'];
+    }
 
 
 
@@ -88,39 +93,43 @@ if (empty($_SESSION['ID'])) {
             <div class="row">
                 <div class="col-3"></div>
                 <div class="col-6 formulario-registro">
-                    <form method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <br>
-                            <label for="imagen-perfil">Foto de perfil:</label>
-                            <br>
-                            <img src="directorio/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top imagen-perfil" alt="...">
+                    <div class="mb-3">
+                        <br>
+                        <label for="imagen-perfil">Foto de perfil:</label>
+                        <br><br>
+                        <img src="directorio/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top imagen-perfil" alt="...">
+                        <br>
+                    </div>
+                    <div class="mb-3">
 
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Cambiar foto de perfil
-                            </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Modificar foto de perfil
+                        </button>
 
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post" action="/cambiar-imagen.php" enctype="multipart/form-data">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modificar foto de perfil!</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Modificar foto de perfil</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="/cambar-foto.php" method="get">
-                                                <input type="file" name="file">
-                                            </form>
+                                            <input type="file" name="foto">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="button" class="btn btn-primary">Guardar</button>
+                                            <button type="submit" name="boton-perfil" class="btn btn-primary" value="guardar">Guardar</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
-                            <br><br>
                         </div>
+                    </div>
+                    <br>
+                    <form method="post" enctype="multipart/form-data">
+
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col">
@@ -148,6 +157,46 @@ if (empty($_SESSION['ID'])) {
                                     <input type="password" class="form-control" name="ingreso-repetir-clave" aria-label="Last name">
                                 </div>
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <?php
+                            if ($error_foto == 0) {
+                            ?>
+                                <div class="alert alert-success" role="alert">
+                                    Informacion actualizada!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($error_foto == 100) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Error al cargar el archivo!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($error_foto == 200) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Error al al enviar el formulario!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($error_foto == 300) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Tipo de archivo no compatible!
+                                </div>
+                            <?php
+                            }
+                            ?>
+
+
                         </div>
 
                         <input type="submit" name="submit" class="btn btn-primary" value="Actualizar datos personales"></button>
