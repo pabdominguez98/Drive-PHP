@@ -120,8 +120,8 @@ if (empty($_SESSION['ID'])) {
                 <div class="col-4">
                     <div class="columna-info">
                         <br><br>
-                        <img src="imagenes/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top" alt="...">
-                        <br>
+                        <img src="directorio/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top" alt="...">
+                        <br><br>
                         <p class="informacion">Nombre: <?php echo $nombre . " " . $apellido ?></p>
                         <br>
                         <p class="informacion">Email: <?php echo $email ?></p>

@@ -12,30 +12,28 @@ if (empty($_SESSION['ID'])) {
     $apellido = "";
     $clave = "";
     $email = "";
-    
-    
 
 
-        $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
-        $sql_query_1 = "SELECT `Nombre`, `Apellido`, `username`, `Clave`, `Imagen` FROM  `usuarios` WHERE ID='" . $id . "'";
 
-        $resultado = mysqli_query($link, $sql_query_1);
 
-        if (mysqli_num_rows($resultado) > 0) {
-            $result = mysqli_fetch_array($resultado);
-            $nombre = $result['Nombre'];
-            $apellido = $result['Apellido'];
-            $clave = $result['Clave'];
-            $email = $result['username'];
-            $foto_perfil = $result['Imagen'];
-        }
+    $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
+    $sql_query_1 = "SELECT `Nombre`, `Apellido`, `username`, `Clave`, `Imagen` FROM  `usuarios` WHERE ID='" . $id . "'";
 
-        if (!empty($_POST['submit'])) {
+    $resultado = mysqli_query($link, $sql_query_1);
 
-            echo $foto_perfil;
-        }
+    if (mysqli_num_rows($resultado) > 0) {
+        $result = mysqli_fetch_array($resultado);
+        $nombre = $result['Nombre'];
+        $apellido = $result['Apellido'];
+        $clave = $result['Clave'];
+        $email = $result['username'];
+        $foto_perfil = $result['Imagen'];
+    }
 
-    
+    if (!empty($_POST['submit'])) {
+
+        echo $foto_perfil;
+    }
 }
 
 ?>
@@ -66,6 +64,11 @@ if (empty($_SESSION['ID'])) {
             border: 1px solid grey;
             border-radius: 20px;
         }
+
+        .imagen-perfil {
+            width: 150px;
+            height: 150px;
+        }
     </style>
 </head>
 
@@ -86,6 +89,38 @@ if (empty($_SESSION['ID'])) {
                 <div class="col-3"></div>
                 <div class="col-6 formulario-registro">
                     <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <br>
+                            <label for="imagen-perfil">Foto de perfil:</label>
+                            <br>
+                            <img src="directorio/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top imagen-perfil" alt="...">
+
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Cambiar foto de perfil
+                            </button>
+
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modificar foto de perfil!</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/cambar-foto.php" method="get">
+                                                <input type="file" name="file">
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col">
