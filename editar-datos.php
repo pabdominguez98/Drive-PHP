@@ -2,7 +2,7 @@
 
 session_start();
 
-
+$error_actualizacion = 0;
 if (empty($_SESSION['ID'])) {
     header("Location: /index.php");
 } else {
@@ -37,13 +37,35 @@ if (empty($_SESSION['ID'])) {
 
     if (!empty($_POST['submit'])) {
 
-        echo $foto_perfil;
+        $email_1 = $_POST['ingreso-email'];
+        $nombre_1 = $_POST['ingreso-nombre'];
+        $apellido_1 = $_POST['ingreso-apellido'];
+        $clave_1 = $_POST['ingreso-clave'];
+        $clave_repetida = $_POST['ingreso-repetir-clave'];
+
+        if (strcmp($clave_1, $clave_repetida) === 0) {
+
+            $sql_query_2 = "UPDATE `usuarios` SET Nombre='" . $nombre_1 . "', Apellido= '" . $apellido_1 . "', username= '" . $email_1 . "', Clave='" . $clave_1 . "' WHERE ID='" . $id . "'";
+
+            if (mysqli_query($link, $sql_query_2)) {
+                $error_actualizacion = 0;
+                
+            }else{
+                $error_actualizacion = 200; //Error base de datos!
+            }
+        } else {
+
+            $error_actualizacion = 100; //  error contraseñas no coinciden
+            
+        }
     }
 }
 
 ?>
 
-<html lang="en">
+<!doctype html>
+
+<html>
 
 <head>
 
@@ -160,7 +182,7 @@ if (empty($_SESSION['ID'])) {
                         </div>
                         <div class="mb-3">
                             <?php
-                            if ($error_foto == 0) {
+                            if ($error_foto == 0 || $error_actualizacion == 0) {
                             ?>
                                 <div class="alert alert-success" role="alert">
                                     Informacion actualizada!
@@ -195,6 +217,25 @@ if (empty($_SESSION['ID'])) {
                             <?php
                             }
                             ?>
+                            
+                            <?php
+                            if ($error_actualizacion == 100) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Las contraseñas no coinciden!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($error_actualizacion == 200) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Error en la base de datos!
+                                </div>
+                            <?php
+                            }
+                            ?>
 
 
                         </div>
@@ -211,7 +252,6 @@ if (empty($_SESSION['ID'])) {
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
 
 </body>
 
