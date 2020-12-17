@@ -6,6 +6,24 @@ if (empty($_SESSION['ID'])) {
     header("Location: /index.php");
 } else {
     $id = $_SESSION['ID'];
+    $nombre = "";
+    $apellido = "";
+    $foto_perfil = md5($id);
+    $email = "";
+
+    $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
+
+    $sql_query_1 = "SELECT `Nombre`, `Apellido`, `username`, `Imagen` FROM `usuarios` WHERE ID='" . $id . "' ";
+
+    $resultado = mysqli_query($link, $sql_query_1);
+
+    if (mysqli_num_rows($resultado) > 0) {
+        $result = mysqli_fetch_array($resultado);
+        $nombre = $result['Nombre'];
+        $apellido = $result['Apellido'];
+        $email = $result['username'];
+        $foto_perfil = $result['Imagen'];
+    }
 }
 
 ?>
@@ -36,7 +54,7 @@ if (empty($_SESSION['ID'])) {
 
         .columna-info {
             position: fixed;
-            width: 18%;
+            width: 25%;
             height: auto;
             color: white;
             padding: 30px;
@@ -51,6 +69,14 @@ if (empty($_SESSION['ID'])) {
         .card {
             position: relative;
             margin: 30px;
+        }
+
+        .informacion {
+            font-size: 18px;
+        }
+
+        .modificar_datos{
+            color: white;
         }
     </style>
 </head>
@@ -93,15 +119,16 @@ if (empty($_SESSION['ID'])) {
             <div class="row">
                 <div class="col-4">
                     <div class="columna-info">
-                        <p>Hola</p>
-                        <p>hola</p>
-                        <p>Hola</p>
-                        <p>hola</p>
-                        <p>Hola</p>
-                        <p>hola</p>
-                        <p>Hola</p>
-                        <p>hola</p>
-
+                        <br><br>
+                        <img src="imagenes/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top" alt="...">
+                        <br>
+                        <p class="informacion">Nombre: <?php echo $nombre . " " . $apellido ?></p>
+                        <br>
+                        <p class="informacion">Email: <?php echo $email ?></p>
+                        <br>
+                        <p class="informacion">ID: <?php echo $id ?></p>
+                        <br>
+                        <a class="modificar_datos" href="/editar-datos.php">Modificar datos personales</a>
                     </div>
                 </div>
                 <div class="col-3">
