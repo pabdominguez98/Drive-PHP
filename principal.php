@@ -116,8 +116,7 @@ if (empty($_SESSION['ID'])) {
                                 </li>
                             </ul>
                             <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Buscar</button>
+                                <h3>Archivos locales</h3>
                             </form>
                         </div>
                     </div>
