@@ -7,7 +7,9 @@ if (empty($_SESSION['ID'])) {
     header("Location: /index.php");
 } else {
     $id = $_SESSION['ID'];
+    echo "hola";
     if (!empty($_POST['boton-perfil'])) {
+
         if (!empty($_FILES['foto'])) {
             $file = $_FILES['foto'];
             $file_type = $_FILES['foto']['type'];
@@ -25,18 +27,18 @@ if (empty($_SESSION['ID'])) {
                 $imagen_actual = $result['Imagen'];
             }
 
-            if (strlen($imagen_actual) > 8) {   //strlen mide la cantidad de caracteres
-                try {
-                    unlink("directorio/imagenes-perfiles/" . md5($id));
-                } catch (Exception $e) {
-                }
+
+
+            if (strcmp("123456.jpg", $imagen_actual) !== 0) {   //strlen mide la cantidad de caracteres
+
+                unlink("directorio/imagenes-perfiles/" . md5($imagen_actual));
             }
 
             $codigo_foto = md5($id);
             $random_name = $codigo_foto;
             $nombre_foto = "";
             $validador = 0;
-            
+
 
             $foto = $_FILES['foto'];
 
@@ -72,7 +74,7 @@ if (empty($_SESSION['ID'])) {
                     move_uploaded_file($fileTmpName, $ruta);
                     header("Location: /editar-datos.php?error=0");
                 }
-            }else{
+            } else {
                 header("Location: /editar-datos.php?error=300");  //error que indica que el tipo de archov no es compatible
             }
         } else {

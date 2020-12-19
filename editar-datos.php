@@ -2,7 +2,7 @@
 
 session_start();
 
-$error_actualizacion = 0;
+$error_actualizacion = 26;
 if (empty($_SESSION['ID'])) {
     header("Location: /index.php");
 } else {
@@ -49,14 +49,17 @@ if (empty($_SESSION['ID'])) {
 
             if (mysqli_query($link, $sql_query_2)) {
                 $error_actualizacion = 0;
-                
-            }else{
+                $nombre = $nombre_1;
+                $apellido = $apellido_1;
+                $clave = $clave_1;
+                $email = $email_1;
+            } else {
                 $error_actualizacion = 200; //Error base de datos!
             }
         } else {
 
             $error_actualizacion = 100; //  error contraseñas no coinciden
-            
+
         }
     }
 }
@@ -217,7 +220,7 @@ if (empty($_SESSION['ID'])) {
                             <?php
                             }
                             ?>
-                            
+
                             <?php
                             if ($error_actualizacion == 100) {
                             ?>

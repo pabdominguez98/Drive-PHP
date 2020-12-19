@@ -5,7 +5,7 @@ if (empty($_SESSION['ID'])) {
     header("Location: /principal.php");
 } else {
     $id = $_SESSION['ID'];
-
+    $archivo_cargado = 0;
     if (isset($_POST['submit'])) {
 
         $error = 0;
@@ -16,22 +16,26 @@ if (empty($_SESSION['ID'])) {
         $fileTmpName = $_FILES['file']['tmp_name'];
 
         $fileExt = explode('.', $file_name);
-        $file_size = $file_size / 1000;
-        $file_size = $file_size . ".KB";
+        $file_size = $file_size / 1000000;
+        $file_size = $file_size . ".MB";
         $file_ext_actual = strtolower(end($fileExt));
         $identificador = md5($file_name);
 
-        $link = mysqli_connect('127.0.0.1', "root", "", "tpdrive");
 
-        $sql_query_1 = "INSERT INTO `archivos_locales` (`Usuario`, `Nombre`, `Tamaño`, `Tipo`, `Identificador`) 
+        if (!$link = mysqli_connect("127.0.0.1", "root", "", "tpdrive")) {
+            $archivo_cargado = 100;
+        } else {
+
+            $sql_query_1 = "INSERT INTO `archivos_locales` (`Usuario`, `Nombre`, `Tamaño`, `Tipo`, `Identificador`) 
         VALUES ('" . $id . "', '" . $file_name . "', '" . $file_size . "', '" . $file_ext_actual . "',  '" . $identificador . "')";
 
-        if (mysqli_query($link, $sql_query_1)) {
-            $carpeta_destino = "directorio/locales/".$identificador.".".$file_ext_actual;
-            move_uploaded_file($fileTmpName ,$carpeta_destino);
-        } else {
-            echo "hola";
-            $error = 100; //error que indica problemas en la conexion a la base de datos
+            if (mysqli_query($link, $sql_query_1)) {
+                $carpeta_destino = "directorio/locales/" . $identificador . "." . $file_ext_actual;
+                move_uploaded_file($fileTmpName, $carpeta_destino);
+                $archivo_cargado = 20; // codigo que indica que el archivo se cargo bien
+            } else {
+                $archivo_cargado = 100; //error que indica problemas en la conexion a la base de datos
+            }
         }
     }
 }
@@ -91,6 +95,26 @@ if (empty($_SESSION['ID'])) {
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Descripcion:</label>
                             <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Descripcion">
+                        </div>
+                        <div class="mb-3">
+                            <?php
+                            if ($archivo_cargado == 20) {
+                            ?>
+                                <div class="alert alert-success" role="alert">
+                                    Archivo cargado correctamente!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($archivo_cargado == 100) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Error al cargar archivo!
+                                </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                         <button type="submit" name="submit" class="btn btn-primary">Subir</button>
                     </form>
