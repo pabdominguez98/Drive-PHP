@@ -157,8 +157,129 @@ if (empty($_SESSION['ID'])) {
                 }
                 ?>
 
+                <?php
+                $sql_query_2 = "SELECT `Usuario_local`, `Nombre`,`Tipo` , `Tamaño`, `Identificador` FROM `archivos_compartidos` WHERE Usuario_compartido= '".$email."'";
+                $resultado_2 = mysqli_query($link, $sql_query_2);
+                while ($result = mysqli_fetch_array($resultado_2)) {
 
-                
+                    $nombre_archivo = $result['Nombre'];
+                    $tam_archivo = $result['Tamaño'];
+                    $usuario_local = $result['Usuario_local'];
+                    $tipo_archivo = $result['Tipo'];
+                    $identificador_archivo = $result['Identificador'];
+
+
+                    $sql_query_4 = "SELECT `Nombre`, `Apellido` FROM `usuarios` WHERE ID='".$usuario_local."'";
+
+                    $resultado_4 = mysqli_query($link, $sql_query_4);
+
+                    if(mysqli_num_rows($resultado_4) > 0){
+                        $result_4 = mysqli_fetch_array($resultado_4);
+                        $nombre_usuario_titular = $result_4['Nombre'];
+                        $apellido_usuario_titular = $result_4['Apellido'];
+                        $nombre_completo_titular = $nombre_usuario_titular." ".$apellido_usuario_titular;
+                    }
+
+                    $direccion = "/directorio/locales/" . $usuario_local. "/" . $identificador_archivo;
+                ?>
+                    <div class="card" style="width: 18rem;">
+
+                        <?php if ($tipo_archivo == "doc" || $tipo_archivo == "docx") { ?>
+                            <img src="imagenes/imagen-word.png" class="card-img-top" alt="...">
+                        <?php
+                        } else if ($tipo_archivo == "png" || $tipo_archivo == "jpg" || $tipo_archivo == "jpeg") {
+                        ?>
+                            <img src="imagenes/imagen-imagen.png" class="card-img-top" alt="...">
+                        <?php } else { ?>
+
+                            <img src="imagenes/icono-archivos.png" class="card-img-top" alt="...">
+                        <?php } ?>
+
+                        <div class="card-body">
+                            <p class="card-text"><?php echo $nombre_archivo; ?></p>
+                            <p class="card-text">Tipo: <?php echo $tipo_archivo; ?></p>
+                            <p class="card-text">Tamaño: <?php echo $tam_archivo; ?></p>
+                            <p class="card-text">Titular: <?php echo $nombre_completo_titular; ?></p>
+                            <p><a target="_BLANK" target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
+                            <div class="row">
+                                <div class="col-4">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Eliminar
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Confirmacion</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Estas seguro que queres eliminar el archivo <?php echo $nombre_archivo; ?></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <form action="eliminar_archivo.php" method="get">
+                                                        <button type="submit" name="eliminar" class="btn btn-primary" value=<?php echo $identificador_archivo ?>>Confirmar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-share">
+                                        Compartir
+                                    </button>
+
+
+                                    <div class="modal fade" id="modal-share" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Compartir con otro usuario</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="compartir-archivo.php" method="get">
+                                                    <div class="modal-body">
+
+                                                        <div class="row">
+                                                            <div class="col-1"></div>
+                                                            <div class="col-8">
+                                                                <input type="hidden" name="nombre_archivo_comp" value=<?php echo $nombre_archivo; ?>>
+                                                                <input type="hidden" name="identificador_archivo_comp" value=<?php echo $identificador_archivo; ?>>
+                                                                <input type="hidden" name="peso_archivo_comp" value=<?php echo $tam_archivo; ?>>
+                                                                <label for="ingreso-usuario">Compartir con:</label>
+                                                                <br>
+                                                                <input id="ingreso-usuario" type="text" name="usuario_archivo_comp" placeholder="Usuario" class="form-control">
+                                                            </div>
+                                                            <div class="col-3"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" name="submit_comp" class="btn btn-primary">Compartir</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                <?php
+                }
+                ?>
+
+
 
 
             </div>
