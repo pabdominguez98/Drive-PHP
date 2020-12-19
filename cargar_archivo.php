@@ -16,13 +16,17 @@ if (empty($_SESSION['ID'])) {
         $fileTmpName = $_FILES['file']['tmp_name'];
 
         $fileExt = explode('.', $file_name);
-        $file_size = $file_size / 1000000;
-        $file_size = $file_size . ".MB";
+        $file_size = $file_size / 1000;
+        $file_size = $file_size . ".KB";
         $file_ext_actual = strtolower(end($fileExt));
-        $identificador = md5($file_name);
+        $identificador = $file_name;
 
+        $path = "directorio/locales/" . $id;
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+        }
 
-        if (!$link = mysqli_connect("127.0.0.1", "root", "", "tpdrive")) {
+        if (!$link = mysqli_connect("127.0.0.1", "root", "", "tpdrive")) { // proximo a actualizar para poder agragar un include
             $archivo_cargado = 100;
         } else {
 
@@ -30,7 +34,7 @@ if (empty($_SESSION['ID'])) {
         VALUES ('" . $id . "', '" . $file_name . "', '" . $file_size . "', '" . $file_ext_actual . "',  '" . $identificador . "')";
 
             if (mysqli_query($link, $sql_query_1)) {
-                $carpeta_destino = "directorio/locales/" . $identificador . "." . $file_ext_actual;
+                $carpeta_destino = "directorio/locales/" . $id . "/" . $identificador . "." . $file_ext_actual;
                 move_uploaded_file($fileTmpName, $carpeta_destino);
                 $archivo_cargado = 20; // codigo que indica que el archivo se cargo bien
             } else {

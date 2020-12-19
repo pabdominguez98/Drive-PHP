@@ -75,6 +75,7 @@ if (!empty($_GET['username'])) {
         </div>
     </section>
     <section>
+        
         <div class="container">
             <div class="row">
                 <div class="col-4 formulario-login">

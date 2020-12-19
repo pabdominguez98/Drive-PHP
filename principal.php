@@ -158,7 +158,7 @@ if (empty($_SESSION['ID'])) {
                     $id_archivo = $result['ID'];
                     $identificador_archivo = $result['Identificador'];
 
-                    $direccion = "/directorio/locales/" . $identificador_archivo . "." . $tipo_archivo;
+                    $direccion = "/directorio/locales/" . $id . "/" . $identificador_archivo;
                 ?>
                     <div class="card" style="width: 18rem;">
 
@@ -177,7 +177,7 @@ if (empty($_SESSION['ID'])) {
                             <p class="card-text"><?php echo $nombre_archivo; ?></p>
                             <p class="card-text">Tipo: <?php echo $tipo_archivo; ?></p>
                             <p class="card-text">Tamaño: <?php echo $tam_archivo; ?></p>
-                            <p><a href=<?php echo $direccion; ?>>Descargar</a></p>
+                            <p><a target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
                             <div class="row">
                                 <div class="col-4">
                                     <!-- Button trigger modal -->
