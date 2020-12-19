@@ -27,50 +27,47 @@ if (empty($_SESSION['ID'])) {
                 $imagen_actual = $result['Imagen'];
             }
 
-
-
-            if (strcmp("123456.jpg", $imagen_actual) !== 0) {   //strlen mide la cantidad de caracteres
-
-                unlink("directorio/imagenes-perfiles/" . md5($imagen_actual));
+            $path = "directorio/imagenes-perfiles/" . $id;
+            if (!is_dir($path)) {
+                mkdir($path, 0777, true);
             }
 
-            $codigo_foto = md5($id);
-            $random_name = $codigo_foto;
-            $nombre_foto = "";
+
+            if (strcmp("123456.jpg", $imagen_actual) !== 0) {   //strcmp se fija que no este cargada la imagen default
+                unlink("directorio/imagenes-perfiles/" . $id . "/" . $imagen_actual);
+            }
+
+
             $validador = 0;
 
 
             $foto = $_FILES['foto'];
 
             if ($foto['type'] == 'image/jpg') {
-                $nombre_foto = $random_name . '.jpg';
                 $validador++;
             } else if ($foto['type'] == 'image/png') {
-                $nombre_foto = $random_name . '.png';
                 $validador++;
             } else if ($foto['type'] == 'image/PNG') {
-                $nombre_foto = $random_name . '.PNG';
                 $validador++;
             } else if ($foto['type'] == 'image/JPG') {
-                $nombre_foto = $random_name . '.JPG';
                 $validador++;
             } else if ($foto['type'] == 'image/jpeg') {
-                $nombre_foto = $random_name . '.jpeg';
                 $validador++;
             } else if ($foto['type'] == 'image/gif') {
-                $nombre_foto = $random_name . '.gif';
                 $validador++;
             } else if ($foto['type'] == 'image/GIF') {
                 $nombre_foto = $random_name . '.GIF';
                 $validador++;
             }
 
+            $nombre_foto = $foto['name'];
             if ($validador != 0) {
                 $sql_query_2 = "UPDATE `usuarios` SET Imagen='" . $nombre_foto . "' WHERE ID='" . $id . "'";
 
+
                 if (mysqli_query($link, $sql_query_2)) {
                     $cartel = "Cargando cambios";
-                    $ruta = "directorio/imagenes-perfiles/$nombre_foto";
+                    $ruta = "directorio/imagenes-perfiles/".$id."/".$nombre_foto;
                     move_uploaded_file($fileTmpName, $ruta);
                     header("Location: /editar-datos.php?error=0");
                 }

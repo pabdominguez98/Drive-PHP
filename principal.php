@@ -23,6 +23,12 @@ if (empty($_SESSION['ID'])) {
         $apellido = $result['Apellido'];
         $email = $result['username'];
         $foto_perfil = $result['Imagen'];
+
+        if (strcmp($foto_perfil, "123456.jpg") === 0) {
+            $direccion_foto_perfil = "directorio/imagenes-perfiles/123456.jpg";
+        } else {
+            $direccion_foto_perfil = "directorio/imagenes-perfiles/" . $id . "/" . $foto_perfil;
+        }
     }
 }
 
@@ -78,6 +84,11 @@ if (empty($_SESSION['ID'])) {
         .modificar_datos {
             color: white;
         }
+
+        .alerta-eliminado {
+            position: relative;
+            top: 30px;
+        }
     </style>
 </head>
 
@@ -120,7 +131,7 @@ if (empty($_SESSION['ID'])) {
             <div class="col-4">
                 <div class="columna-info">
                     <br><br>
-                    <img src="directorio/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top" alt="...">
+                    <img src=<?php echo $direccion_foto_perfil ?> class="card-img-top" alt="...">
                     <br><br>
                     <p class="informacion">Nombre: <?php echo $nombre . " " . $apellido ?></p>
                     <br>
@@ -138,7 +149,7 @@ if (empty($_SESSION['ID'])) {
                     if ($_GET['error_carga'] == "0") {
 
                 ?>
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success alerta-eliminado" role="alert">
                             Archivo eliminado correctamente
                         </div>
 
@@ -177,7 +188,7 @@ if (empty($_SESSION['ID'])) {
                             <p class="card-text"><?php echo $nombre_archivo; ?></p>
                             <p class="card-text">Tipo: <?php echo $tipo_archivo; ?></p>
                             <p class="card-text">Tamaño: <?php echo $tam_archivo; ?></p>
-                            <p><a target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
+                            <p><a target="_BLANK" target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
                             <div class="row">
                                 <div class="col-4">
                                     <!-- Button trigger modal -->
@@ -208,32 +219,39 @@ if (empty($_SESSION['ID'])) {
                                 </div>
                                 <div class="col-8">
 
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-share">
                                         Compartir
                                     </button>
 
 
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="modal-share" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Compartir con otro usuario</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-1"></div>
-                                                        <div class="col-8">
-                                                            <label for="ingreso-usuario">Compartir con:</label>
-                                                            <input id="ingreso-usuario" type="text" placeholder="Usuario" class="form-control">
+                                                <form action="compartir-archivo.php" method="get">
+                                                    <div class="modal-body">
+
+                                                        <div class="row">
+                                                            <div class="col-1"></div>
+                                                            <div class="col-8">
+                                                                <input type="hidden" name="nombre_archivo_comp" value=<?php echo $nombre_archivo; ?>>
+                                                                <input type="hidden" name="identificador_archivo_comp" value=<?php echo $identificador_archivo; ?>>
+                                                                <input type="hidden" name="peso_archivo_comp" value=<?php echo $tam_archivo; ?>>
+                                                                <label for="ingreso-usuario">Compartir con:</label>
+                                                                <br>
+                                                                <input id="ingreso-usuario" type="text" name="usuario_archivo_comp" placeholder="Usuario" class="form-control">
+                                                            </div>
+                                                            <div class="col-3"></div>
                                                         </div>
-                                                        <div class="col-3"></div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="button" class="btn btn-primary">Compartir</button>
-                                                </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" name="submit_comp" class="btn btn-primary">Compartir</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

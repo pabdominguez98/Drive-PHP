@@ -33,6 +33,11 @@ if (empty($_SESSION['ID'])) {
         $clave = $result['Clave'];
         $email = $result['username'];
         $foto_perfil = $result['Imagen'];
+        if(strcmp($foto_perfil, "123456.jpg") === 0){
+            $direccion_foto_perfil = "directorio/imagenes-perfiles/123456.jpg";
+        }else{
+            $direccion_foto_perfil = "directorio/imagenes-perfiles/".$id."/". $foto_perfil;
+        }
     }
 
     if (!empty($_POST['submit'])) {
@@ -122,7 +127,7 @@ if (empty($_SESSION['ID'])) {
                         <br>
                         <label for="imagen-perfil">Foto de perfil:</label>
                         <br><br>
-                        <img src="directorio/imagenes-perfiles/<?php echo $foto_perfil ?>" class="card-img-top imagen-perfil" alt="...">
+                        <img src=<?php echo $direccion_foto_perfil ?> class="card-img-top imagen-perfil" alt="...">
                         <br>
                     </div>
                     <div class="mb-3">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 15. Dez 2020 um 04:43
+-- Erstellungszeit: 19. Dez 2020 um 20:13
 -- Server-Version: 10.4.13-MariaDB
 -- PHP-Version: 7.4.7
 
@@ -24,6 +24,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `archivos_compartidos`
+--
+
+CREATE TABLE `archivos_compartidos` (
+  `ID` int(50) NOT NULL,
+  `Usuario_local` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Usuario_compartido` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Tamaño` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Identificador` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `archivos_locales`
+--
+
+CREATE TABLE `archivos_locales` (
+  `ID` int(11) NOT NULL,
+  `Usuario` varchar(50) NOT NULL,
+  `Nombre` varchar(50) NOT NULL,
+  `Tamaño` varchar(50) NOT NULL,
+  `Tipo` varchar(50) NOT NULL,
+  `Identificador` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `usuarios`
 --
 
@@ -32,19 +62,25 @@ CREATE TABLE `usuarios` (
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Apellido` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `Clave` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `Clave` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Imagen` varchar(50) CHARACTER SET utf32 COLLATE utf32_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Daten für Tabelle `usuarios`
---
-
-INSERT INTO `usuarios` (`ID`, `username`, `Nombre`, `Apellido`, `Clave`) VALUES
-(1, 'dominguezpablo0998@gmail.com', 'Pablo', 'Dominguez', '123456');
 
 --
 -- Indizes der exportierten Tabellen
 --
+
+--
+-- Indizes für die Tabelle `archivos_compartidos`
+--
+ALTER TABLE `archivos_compartidos`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `archivos_locales`
+--
+ALTER TABLE `archivos_locales`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indizes für die Tabelle `usuarios`
@@ -57,10 +93,22 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT für Tabelle `archivos_compartidos`
+--
+ALTER TABLE `archivos_compartidos`
+  MODIFY `ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT für Tabelle `archivos_locales`
+--
+ALTER TABLE `archivos_locales`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
 -- AUTO_INCREMENT für Tabelle `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

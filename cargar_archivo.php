@@ -19,7 +19,7 @@ if (empty($_SESSION['ID'])) {
         $file_size = $file_size / 1000;
         $file_size = $file_size . ".KB";
         $file_ext_actual = strtolower(end($fileExt));
-        $identificador = $file_name;
+        $identificador = str_replace(' ', '_', $file_name);
 
         $path = "directorio/locales/" . $id;
         if (!is_dir($path)) {
@@ -29,16 +29,24 @@ if (empty($_SESSION['ID'])) {
         if (!$link = mysqli_connect("127.0.0.1", "root", "", "tpdrive")) { // proximo a actualizar para poder agragar un include
             $archivo_cargado = 100;
         } else {
+            $sql_query_2 = "SELECT `ID` FROM `archivos_locales` WHERE Usuario ='" . $id . "' AND Identificador='" . $identificador . "'";
 
-            $sql_query_1 = "INSERT INTO `archivos_locales` (`Usuario`, `Nombre`, `Tamaño`, `Tipo`, `Identificador`) 
+            $resultado_1 = mysqli_query($link, $sql_query_2);
+
+            if (mysqli_num_rows($resultado_1) == 0) {
+
+                $sql_query_1 = "INSERT INTO `archivos_locales` (`Usuario`, `Nombre`, `Tamaño`, `Tipo`, `Identificador`) 
         VALUES ('" . $id . "', '" . $file_name . "', '" . $file_size . "', '" . $file_ext_actual . "',  '" . $identificador . "')";
 
-            if (mysqli_query($link, $sql_query_1)) {
-                $carpeta_destino = "directorio/locales/" . $id . "/" . $identificador . "." . $file_ext_actual;
-                move_uploaded_file($fileTmpName, $carpeta_destino);
-                $archivo_cargado = 20; // codigo que indica que el archivo se cargo bien
-            } else {
-                $archivo_cargado = 100; //error que indica problemas en la conexion a la base de datos
+                if (mysqli_query($link, $sql_query_1)) {
+                    $carpeta_destino = "directorio/locales/" . $id . "/" . $identificador;
+                    move_uploaded_file($fileTmpName, $carpeta_destino);
+                    $archivo_cargado = 20; // codigo que indica que el archivo se cargo bien
+                } else {
+                    $archivo_cargado = 100; //error que indica problemas en la conexion a la base de datos
+                }
+            }else{
+                $archivo_cargado = 505;  //error que indica que ya existe el archivo cargado
             }
         }
     }
@@ -115,6 +123,15 @@ if (empty($_SESSION['ID'])) {
                             ?>
                                 <div class="alert alert-danger" role="alert">
                                     Error al cargar archivo!
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if ($archivo_cargado == 505) {
+                            ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Ya existe el archivo que intentas cargar!
                                 </div>
                             <?php
                             }
