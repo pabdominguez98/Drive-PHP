@@ -61,7 +61,7 @@ if (empty($_SESSION['ID'])) {
     .columna-info {
       position: fixed;
       width: 25%;
-      height: auto;
+      height: 2000px;
       color: white;
       padding: 30px;
       background-color: #0D6EFD;
@@ -70,6 +70,13 @@ if (empty($_SESSION['ID'])) {
     .card-img-top {
       width: 150px;
       height: 150px;
+    }
+
+    .card-img-top-col {
+      margin-left: 45px;
+      position: relative;
+      border: 2px solid grey;
+      border-radius: 25%;
     }
 
     .card {
@@ -89,6 +96,17 @@ if (empty($_SESSION['ID'])) {
     .alerta-eliminado {
       position: relative;
       top: 30px;
+    }
+
+    .nombre-columna {
+      position: relative;
+      margin-left: 20px;
+      font-size: 30px;
+      top: 25px;
+    }
+
+    .nombre-columna a {
+      color: white;
     }
   </style>
 </head>
@@ -142,15 +160,10 @@ if (empty($_SESSION['ID'])) {
       <div class="col-4">
         <div class="columna-info">
           <br><br>
-          <img src=<?php echo $direccion_foto_perfil ?> class="card-img-top" alt="...">
+          <img src=<?php echo $direccion_foto_perfil ?> class="card-img-top card-img-top-col" alt="...">
           <br><br>
-          <p class="informacion">Nombre: <?php echo $nombre . " " . $apellido ?></p>
+          <p class="informacion nombre-columna"><a href="/perfil.php"><?php echo $nombre . " " . $apellido ?></a></p>
           <br>
-          <p class="informacion">Email: <?php echo $email ?></p>
-          <br>
-          <p class="informacion">ID: <?php echo $id ?></p>
-          <br>
-          <a class="modificar_datos" href="/editar-datos.php">Modificar datos personales</a>
         </div>
       </div>
       <div class="col-4">
@@ -170,7 +183,7 @@ if (empty($_SESSION['ID'])) {
         ?>
 
         <?php
-        $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`, `Identificador` FROM `archivos_locales` WHERE Usuario='" . $id . "'";
+        $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`,`Fecha` ,`Identificador` FROM `archivos_locales` WHERE Usuario='" . $id . "'";
         $resultado_2 = mysqli_query($link, $sql_query_2);
         while ($result = mysqli_fetch_array($resultado_2)) {
 
@@ -178,7 +191,10 @@ if (empty($_SESSION['ID'])) {
           $tam_archivo = $result['Tamaño'];
           $tipo_archivo = $result['Tipo'];
           $id_archivo = $result['ID'];
+          $fecha_archivo = $result['Fecha'];
           $identificador_archivo = $result['Identificador'];
+
+          $identificador_modal = str_replace('.', '', $identificador_archivo);
 
           $direccion = "/directorio/locales/" . $id . "/" . $identificador_archivo;
         ?>
@@ -199,20 +215,22 @@ if (empty($_SESSION['ID'])) {
               <p class="card-text"><?php echo $nombre_archivo; ?></p>
               <p class="card-text">Tipo: <?php echo $tipo_archivo; ?></p>
               <p class="card-text">Tamaño: <?php echo $tam_archivo; ?></p>
+
+              <span>Fecha: <?php echo $fecha_archivo; ?></span>
               <p><a target="_BLANK" target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
               <div class="row">
                 <div class="col-4">
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-eliminar-<?php echo $identificador_modal; ?>">
                     Eliminar
                   </button>
 
-                  <!-- Modal -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                  <div class="modal fade" id="modal-eliminar-<?php echo $identificador_modal; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Confirmacion</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Eliminar (<?php echo $nombre_archivo; ?>)</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -230,22 +248,24 @@ if (empty($_SESSION['ID'])) {
                 </div>
                 <div class="col-8">
                   <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_editar">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_editar-<?php echo $identificador_modal; ?>">
                     Editar
                   </button>
 
                   <!-- Modal -->
-                  <div class="modal fade" id="modal_editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal fade" id="modal_editar-<?php echo $identificador_modal; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Editar archivo</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Editar archivo (<?php echo $nombre_archivo; ?>)</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form action="editar_archivo.php" method="get">
                           <div class="modal-body">
 
                             <div class="col">
+                              <input type="hidden" name="identificador-actual" value="<?php echo $identificador_archivo ?>">
+                              <input type="hidden" name="tipo-archivo" value="<?php echo $tipo_archivo; ?>">
                               <label for="exampleInputPassword1" class="form-label">Nuevo nombre:</label>
                               <input type="text" class="form-control" name="modificacion" placeholder="Nombre" aria-label="First name">
                             </div>
@@ -260,16 +280,16 @@ if (empty($_SESSION['ID'])) {
                     </div>
                   </div>
 
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-share">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-compartir-<?php echo $identificador_modal; ?>">
                     Compartir
                   </button>
 
 
-                  <div class="modal fade" id="modal-share" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal fade" id="modal-compartir-<?php echo $identificador_modal; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Compartir con otro usuario</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Compartir (<?php echo $nombre_archivo; ?>)</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form action="compartir-archivo.php" method="get">
@@ -278,6 +298,7 @@ if (empty($_SESSION['ID'])) {
                             <div class="row">
                               <div class="col-1"></div>
                               <div class="col-8">
+                                <input type="hidden" name="fecha_archivo_comp" value="<?php echo $fecha_archivo; ?>">
                                 <input type="hidden" name="tipo_archivo_comp" value=<?php echo $tipo_archivo; ?>>
                                 <input type="hidden" name="nombre_archivo_comp" value=<?php echo $nombre_archivo; ?>>
                                 <input type="hidden" name="identificador_archivo_comp" value=<?php echo $identificador_archivo; ?>>

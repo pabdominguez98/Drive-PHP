@@ -33,10 +33,18 @@ if (empty($_SESSION['ID'])) {
 
             $resultado_1 = mysqli_query($link, $sql_query_2);
 
+            $datos_fecha = getdate();
+
+            $dia_actual = $datos_fecha['mday'];
+            $mes_actual = $datos_fecha['mon'];
+            $año_actual = $datos_fecha['year'];
+
+            $fecha_actual = $dia_actual."/".$mes_actual."/".$año_actual;
+
             if (mysqli_num_rows($resultado_1) == 0) {
 
-                $sql_query_1 = "INSERT INTO `archivos_locales` (`Usuario`, `Nombre`, `Tamaño`, `Tipo`, `Identificador`) 
-        VALUES ('" . $id . "', '" . $file_name . "', '" . $file_size . "', '" . $file_ext_actual . "',  '" . $identificador . "')";
+                $sql_query_1 = "INSERT INTO `archivos_locales` (`Usuario`, `Nombre`, `Tamaño`, `Tipo`, `Fecha`, `Identificador`) 
+        VALUES ('" . $id . "', '" . $file_name . "', '" . $file_size . "', '" . $file_ext_actual . "','".$fecha_actual."', '" . $identificador . "')";
 
                 if (mysqli_query($link, $sql_query_1)) {
                     $carpeta_destino = "directorio/locales/" . $id . "/" . $identificador;

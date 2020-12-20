@@ -12,6 +12,7 @@ if (empty($_SESSION['ID'])) {
         $usuario = $_GET['usuario_archivo_comp'];
         $peso_archivo = $_GET['peso_archivo_comp'];
         $tipo_archivo = $_GET['tipo_archivo_comp'];
+        $fecha_archivo = $_GET['fecha_archivo_comp'];
 
         if (!empty($usuario)) {
             $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
@@ -28,8 +29,8 @@ if (empty($_SESSION['ID'])) {
 
                 if (mysqli_num_rows($resultado_2) == 0) {
 
-                    $sql_query_3 = "INSERT INTO `archivos_compartidos` (`Usuario_local`, `Usuario_compartido`, `Nombre`,`Tipo` ,`Tamaño`, `Identificador`)
-               VALUES ('" . $id . "', '" . $usuario . "', '" . $nombre_archivo . "','".$tipo_archivo."' ,'" . $peso_archivo . "', '" . $identificador_archivo . "')";
+                    $sql_query_3 = "INSERT INTO `archivos_compartidos` (`Usuario_local`, `Usuario_compartido`, `Nombre`,`Tipo` ,`Tamaño`,`Fecha` , `Identificador`)
+               VALUES ('" . $id . "', '" . $usuario . "', '" . $nombre_archivo . "','".$tipo_archivo."' ,'" . $peso_archivo . "','".$fecha_archivo."' , '" . $identificador_archivo . "')";
 
                     if (mysqli_query($link, $sql_query_3)) {
                         header("Location: /principal.php?error_carga=60"); // archivo compartido con exito
