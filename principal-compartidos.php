@@ -111,8 +111,18 @@ if (empty($_SESSION['ID'])) {
                                 <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="/cargar_archivo.php">Subir archivo</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="funciones/logout.php">Cerrar sesion</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Dropdown
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="principal.php">Archivos locales</a></li>
+                                        <li><a class="dropdown-item" href="principal-compartidos.php">Archivos Compartidos</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="funciones/logout.php">Cerrar sesion</a></li>
+                                    </ul>
                                 </li>
                             </ul>
                             <form class="d-flex">
@@ -158,7 +168,7 @@ if (empty($_SESSION['ID'])) {
                 ?>
 
                 <?php
-                $sql_query_2 = "SELECT `Usuario_local`, `Nombre`,`Tipo` , `Tamaño`, `Identificador` FROM `archivos_compartidos` WHERE Usuario_compartido= '".$email."'";
+                $sql_query_2 = "SELECT `Usuario_local`, `Nombre`,`Tipo` , `Tamaño`, `Identificador` FROM `archivos_compartidos` WHERE Usuario_compartido= '" . $email . "'";
                 $resultado_2 = mysqli_query($link, $sql_query_2);
                 while ($result = mysqli_fetch_array($resultado_2)) {
 
@@ -169,18 +179,18 @@ if (empty($_SESSION['ID'])) {
                     $identificador_archivo = $result['Identificador'];
 
 
-                    $sql_query_4 = "SELECT `Nombre`, `Apellido` FROM `usuarios` WHERE ID='".$usuario_local."'";
+                    $sql_query_4 = "SELECT `Nombre`, `Apellido` FROM `usuarios` WHERE ID='" . $usuario_local . "'";
 
                     $resultado_4 = mysqli_query($link, $sql_query_4);
 
-                    if(mysqli_num_rows($resultado_4) > 0){
+                    if (mysqli_num_rows($resultado_4) > 0) {
                         $result_4 = mysqli_fetch_array($resultado_4);
                         $nombre_usuario_titular = $result_4['Nombre'];
                         $apellido_usuario_titular = $result_4['Apellido'];
-                        $nombre_completo_titular = $nombre_usuario_titular." ".$apellido_usuario_titular;
+                        $nombre_completo_titular = $nombre_usuario_titular . " " . $apellido_usuario_titular;
                     }
 
-                    $direccion = "/directorio/locales/" . $usuario_local. "/" . $identificador_archivo;
+                    $direccion = "/directorio/locales/" . $usuario_local . "/" . $identificador_archivo;
                 ?>
                     <div class="card" style="width: 18rem;">
 
@@ -202,6 +212,7 @@ if (empty($_SESSION['ID'])) {
                             <p class="card-text">Titular: <?php echo $nombre_completo_titular; ?></p>
                             <p><a target="_BLANK" target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
                             <div class="row">
+                                
                                 <div class="col-4">
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -230,6 +241,7 @@ if (empty($_SESSION['ID'])) {
                                     </div>
                                 </div>
                                 <div class="col-8">
+                                    
 
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-share">
                                         Compartir
@@ -267,6 +279,7 @@ if (empty($_SESSION['ID'])) {
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
 

@@ -75,6 +75,7 @@ if (empty($_SESSION['ID'])) {
     .card {
       position: relative;
       margin: 30px;
+      width: 320px;
     }
 
     .informacion {
@@ -124,7 +125,7 @@ if (empty($_SESSION['ID'])) {
                     <li><a class="dropdown-item" href="funciones/logout.php">Cerrar sesion</a></li>
                   </ul>
                 </li>
-                
+
               </ul>
               <form class="d-flex">
                 <h3>Archivos locales</h3>
@@ -152,7 +153,7 @@ if (empty($_SESSION['ID'])) {
           <a class="modificar_datos" href="/editar-datos.php">Modificar datos personales</a>
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-4">
 
         <?php
         if (isset($_GET['error_carga'])) {
@@ -169,7 +170,7 @@ if (empty($_SESSION['ID'])) {
         ?>
 
         <?php
-        $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`, `Identificador` FROM `archivos_locales` WHERE Usuario='".$id."'";
+        $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`, `Identificador` FROM `archivos_locales` WHERE Usuario='" . $id . "'";
         $resultado_2 = mysqli_query($link, $sql_query_2);
         while ($result = mysqli_fetch_array($resultado_2)) {
 
@@ -181,7 +182,7 @@ if (empty($_SESSION['ID'])) {
 
           $direccion = "/directorio/locales/" . $id . "/" . $identificador_archivo;
         ?>
-          <div class="card" style="width: 18rem;">
+          <div class="card">
 
             <?php if ($tipo_archivo == "doc" || $tipo_archivo == "docx") { ?>
               <img src="imagenes/imagen-word.png" class="card-img-top" alt="...">
@@ -228,6 +229,36 @@ if (empty($_SESSION['ID'])) {
                   </div>
                 </div>
                 <div class="col-8">
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_editar">
+                    Editar
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="modal_editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Editar archivo</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="editar_archivo.php" method="get">
+                          <div class="modal-body">
+
+                            <div class="col">
+                              <label for="exampleInputPassword1" class="form-label">Nuevo nombre:</label>
+                              <input type="text" class="form-control" name="modificacion" placeholder="Nombre" aria-label="First name">
+                            </div>
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" name="boton-editar-archivos" class="btn btn-primary">Guardar</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
 
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-share">
                     Compartir
