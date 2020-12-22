@@ -245,10 +245,34 @@ if (empty($_SESSION['ID'])) {
               <p class="card-text">Tipo: <?php echo $tipo_archivo; ?></p>
               <p class="card-text">Tamaño: <?php echo $tam_archivo; ?></p>
 
+
               <span>Fecha: <?php echo $fecha_archivo; ?></span>
+              <br>
+              <br>
+              <span>Compartido con:</span>
+              <br>
+
+              <?php
+
+              $mysqli_query_dos = "SELECT `Usuario_compartido` FROM `archivos_compartidos` WHERE Usuario_local='" . $id . "' AND Identificador='" . $identificador_archivo . "'";
+              $resultado_query = mysqli_query($link, $mysqli_query_dos);
+
+              while ($result_dos = mysqli_fetch_array($resultado_query)) {
+                $nombre_usuario_compartido = $result_dos['Usuario_compartido'];
+
+              ?>
+                <span>_<?php echo $nombre_usuario_compartido; ?></span>
+                <br>
+
+              <?php
+              }
+              ?>
+              <br>
               <p><a target="_BLANK" target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
               <div class="row">
                 <div class="col-4">
+
+
 
                   <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-eliminar-<?php echo $identificador_modal; ?>">
                     Eliminar
