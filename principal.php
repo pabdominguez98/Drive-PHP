@@ -181,6 +181,35 @@ if (empty($_SESSION['ID'])) {
           }
         }
         ?>
+        <?php
+        if (isset($_GET['error_carga'])) {
+          if ($_GET['error_carga'] == "57") {
+
+        ?>
+            <div class="alert alert-danger alerta-eliminado" role="alert">
+              El usuario con el que queres compartir no existe!
+            </div>
+
+        <?php
+          }
+        }
+        ?>
+
+        <?php
+        if (isset($_GET['error_carga'])) {
+          if ($_GET['error_carga'] == "60") {
+
+        ?>
+            <div class="alert alert-success alerta-eliminado" role="alert">
+              Archivo compartido correctamente
+            </div>
+
+        <?php
+          }
+        }
+        ?>
+
+
 
         <?php
         $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`,`Fecha` ,`Identificador` FROM `archivos_locales` WHERE Usuario='" . $id . "'";
@@ -247,12 +276,12 @@ if (empty($_SESSION['ID'])) {
                   </div>
                 </div>
                 <div class="col-8">
-                  
+
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_editar-<?php echo $identificador_modal; ?>">
                     Editar
                   </button>
 
-            
+
                   <div class="modal fade" id="modal_editar-<?php echo $identificador_modal; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">

@@ -193,7 +193,7 @@ if (empty($_SESSION['ID'])) {
                     $identificador_archivo = $result['Identificador'];
                     $fecha_archivo = $result['Fecha'];
 
-
+            
                     $sql_query_4 = "SELECT `Nombre`, `Apellido` FROM `usuarios` WHERE ID='" . $usuario_local . "'";
 
                     $resultado_4 = mysqli_query($link, $sql_query_4);
