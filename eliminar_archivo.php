@@ -11,11 +11,14 @@ if(empty($_SESSION['ID'])){
 
         $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
 
-        $sql_query = "DELETE FROM `archivos_locales` WHERE Identificador= '".$nombre."'";
+        $sql_query = "DELETE FROM `archivos_locales` WHERE Identificador= '".$nombre."' AND Usuario='".$id."'";
 
         if(mysqli_query($link, $sql_query)){
             unlink("directorio/locales/".$id."/".$nombre);
-            header("Location: /principal.php?error_carga=0");
+            $sql_query_2 = "DELETE FROM `archivos_compartidos` WHERE Identificador= '".$nombre."' AND Usuario_local='".$id."'";
+             if(mysqli_query($link, $sql_query_2)){
+             header("Location: /principal.php?error_carga=0");
+             }
         }
 
     }else{

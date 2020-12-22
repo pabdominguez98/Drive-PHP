@@ -247,12 +247,12 @@ if (empty($_SESSION['ID'])) {
                   </div>
                 </div>
                 <div class="col-8">
-                  <!-- Button trigger modal -->
+                  
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_editar-<?php echo $identificador_modal; ?>">
                     Editar
                   </button>
 
-                  <!-- Modal -->
+            
                   <div class="modal fade" id="modal_editar-<?php echo $identificador_modal; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -300,7 +300,6 @@ if (empty($_SESSION['ID'])) {
                               <div class="col-8">
                                 <input type="hidden" name="fecha_archivo_comp" value="<?php echo $fecha_archivo; ?>">
                                 <input type="hidden" name="tipo_archivo_comp" value=<?php echo $tipo_archivo; ?>>
-                                <input type="hidden" name="nombre_archivo_comp" value=<?php echo $nombre_archivo; ?>>
                                 <input type="hidden" name="identificador_archivo_comp" value=<?php echo $identificador_archivo; ?>>
                                 <input type="hidden" name="peso_archivo_comp" value=<?php echo $tam_archivo; ?>>
                                 <label for="ingreso-usuario">Compartir con:</label>

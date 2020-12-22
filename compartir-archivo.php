@@ -7,12 +7,14 @@ if (empty($_SESSION['ID'])) {
     $id = $_SESSION['ID'];
     if (isset($_GET['submit_comp'])) {
 
-        $nombre_archivo = $_GET['nombre_archivo_comp'];
+        
         $identificador_archivo = $_GET['identificador_archivo_comp'];
         $usuario = $_GET['usuario_archivo_comp'];
         $peso_archivo = $_GET['peso_archivo_comp'];
         $tipo_archivo = $_GET['tipo_archivo_comp'];
         $fecha_archivo = $_GET['fecha_archivo_comp'];
+
+        $nombre_archivo = str_replace('_', ' ', $identificador_archivo);
 
         if (!empty($usuario)) {
             $link = mysqli_connect("127.0.0.1", "root", "", "tpdrive");
