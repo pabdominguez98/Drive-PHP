@@ -24,6 +24,9 @@ if (empty($_SESSION['ID'])) {
     $email = $result['username'];
     $foto_perfil = $result['Imagen'];
     $rol_usuario = $result['Rol'];
+    if($rol_usuario != "Admin"){
+        header("Location: /principal.php");
+    }
     if (strcmp($foto_perfil, "123456.jpg") === 0) {
       $direccion_foto_perfil = "directorio/imagenes-perfiles/123456.jpg";
     } else {
@@ -141,7 +144,7 @@ if (empty($_SESSION['ID'])) {
                     <?php
                     if ($rol_usuario == "Admin") {
                     ?>
-                      <li><a class="dropdown-item" href="todos-archivos.php">Todos los archivos</a></li>
+                      <li><a class="dropdown-item" href="principal.php">Mis archivos</a></li>
                     <?php
                     }
                     ?>
@@ -221,7 +224,7 @@ if (empty($_SESSION['ID'])) {
 
 
         <?php
-        $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`,`Fecha` ,`Identificador` FROM `archivos_locales` WHERE Usuario='" . $id . "'";
+        $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`,`Fecha` ,`Identificador` FROM `archivos_locales`";
         $resultado_2 = mysqli_query($link, $sql_query_2);
         while ($result = mysqli_fetch_array($resultado_2)) {
 
@@ -257,24 +260,8 @@ if (empty($_SESSION['ID'])) {
 
               <span>Fecha: <?php echo $fecha_archivo; ?></span>
               <br>
-              <br>
-              <span>Compartido con:</span>
-              <br>
-
-              <?php
-
-              $mysqli_query_dos = "SELECT `Usuario_compartido` FROM `archivos_compartidos` WHERE Usuario_local='" . $id . "' AND Identificador='" . $identificador_archivo . "'";
-              $resultado_query = mysqli_query($link, $mysqli_query_dos);
-
-              while ($result_dos = mysqli_fetch_array($resultado_query)) {
-                $nombre_usuario_compartido = $result_dos['Usuario_compartido'];
-              ?>
-                <span>_<?php echo $nombre_usuario_compartido; ?></span>
-                <br>
-
-              <?php
-              }
-              ?>
+              
+              
               <br>
               <p><a target="_BLANK" target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
               <div class="row">
