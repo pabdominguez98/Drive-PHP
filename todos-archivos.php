@@ -24,8 +24,8 @@ if (empty($_SESSION['ID'])) {
     $email = $result['username'];
     $foto_perfil = $result['Imagen'];
     $rol_usuario = $result['Rol'];
-    if($rol_usuario != "Admin"){
-        header("Location: /principal.php");
+    if ($rol_usuario != "Admin") {
+      header("Location: /principal.php");
     }
     if (strcmp($foto_perfil, "123456.jpg") === 0) {
       $direccion_foto_perfil = "directorio/imagenes-perfiles/123456.jpg";
@@ -224,7 +224,7 @@ if (empty($_SESSION['ID'])) {
 
 
         <?php
-        $sql_query_2 = "SELECT `ID`, `Nombre`, `Tipo`, `Tamaño`,`Fecha` ,`Identificador` FROM `archivos_locales`";
+        $sql_query_2 = "SELECT `ID`, `Usuario`, `Nombre`, `Tipo`, `Tamaño`,`Fecha` ,`Identificador` FROM `archivos_locales`";
         $resultado_2 = mysqli_query($link, $sql_query_2);
         while ($result = mysqli_fetch_array($resultado_2)) {
 
@@ -234,8 +234,17 @@ if (empty($_SESSION['ID'])) {
           $id_archivo = $result['ID'];
           $fecha_archivo = $result['Fecha'];
           $identificador_archivo = $result['Identificador'];
-
+          $id_identificador_usuario = $result['Usuario'];
           $identificador_modal = str_replace('.', '', $identificador_archivo);
+
+          $sql_query_mil = "SELECT `Username` FROM `usuarios` WHERE ID='".$id_identificador_usuario."'";
+
+          $resultado_mil = mysqli_query($link, $sql_query_mil);
+
+          if(mysqli_num_rows($resultado_mil)>0){
+            $result_mil = mysqli_fetch_array($resultado_mil);
+            $nombre_dueño_archivo = $result_mil['Username'];
+          }
 
           $direccion = "/directorio/locales/" . $id . "/" . $identificador_archivo;
         ?>
@@ -260,8 +269,8 @@ if (empty($_SESSION['ID'])) {
 
               <span>Fecha: <?php echo $fecha_archivo; ?></span>
               <br>
-              
-              
+             
+              <span>Usuario: <?php echo $nombre_dueño_archivo; ?></span>
               <br>
               <p><a target="_BLANK" target="_BLANK" href=<?php echo $direccion; ?>>Descargar</a></p>
               <div class="row">
